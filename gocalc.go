@@ -16,7 +16,7 @@ type Chainable[T int | uint | float64] struct {
 	value T
 }
 
-func New[T int | uint | float64](value T) IChainable[T] {
+func NewCalc[T int | uint | float64](value T) IChainable[T] {
 	c := new(Chainable[T])
 	c.value = value
 	return c
