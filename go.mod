@@ -1,3 +1,3 @@
-module github.com/binarstrike/gocalc/v2
+module github.com/binarstrike/gocalc
 
 go 1.21.3
