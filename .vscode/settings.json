@@ -14,5 +14,10 @@
             "source.organizeImports": true
         },
         "editor.tabSize": 2
-    }
+    },
+    "go.inlayHints.assignVariableTypes": true,
+    "go.inlayHints.constantValues": true,
+    "go.inlayHints.rangeVariableTypes": true,
+    "go.inlayHints.functionTypeParameters": true,
+    "go.inlayHints.parameterNames": true,
 }
