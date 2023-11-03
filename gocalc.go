@@ -1,15 +1,36 @@
 package gocalc
 
-type Operation string
-
-const (
-	Plus     Operation = "Plus()"
-	Min      Operation = "Min()"
-	Multiply Operation = "Multiply()"
-	Divide   Operation = "Divide()"
+import (
+	"golang.org/x/exp/constraints"
 )
 
-type IChainable[T any] interface {
+type Operation int
+
+type Number interface {
+	constraints.Integer | constraints.Float
+}
+
+var operationName = [...]string{
+	"Nop",
+	"Plus",
+	"Minus",
+	"Multiply",
+	"Divide",
+}
+
+const (
+	Nop Operation = iota + 1
+	Plus
+	Minus
+	Multiply
+	Divide
+)
+
+func (op Operation) String() string {
+	return operationName[op-1]
+}
+
+type IChainable[T Number] interface {
 	IChainableOperation[T]
 	Result() T
 	Error() error
@@ -20,15 +41,14 @@ type IChainable[T any] interface {
 	LastOperation() Operation
 }
 
-type IChainableOperation[T any] interface {
+type IChainableOperation[T Number] interface {
 	Plus(T) IChainable[T]
-	Min(T) IChainable[T]
+	Minus(T) IChainable[T]
 	Multiply(T) IChainable[T]
 	Divide(T) IChainable[T]
 }
 
-type Chainable[T int | int8 | int16 | int32 | int64 | uint | uint8 |
-	uint16 | uint32 | uint64 | float32 | float64 | complex64 | complex128] struct {
+type Chainable[T Number] struct {
 	sums                 T
 	lastErrorOperation   Operation
 	lastSuccessOperation Operation
@@ -36,13 +56,12 @@ type Chainable[T int | int8 | int16 | int32 | int64 | uint | uint8 |
 	lastErrorCaught      error
 }
 
-func New[T int | int8 | int16 | int32 | int64 | uint | uint8 |
-	uint16 | uint32 | uint64 | float32 | float64 | complex64 | complex128](startValue T) IChainable[T] {
+func New[T Number](startValue T) IChainable[T] {
 	c := new(Chainable[T])
 	c.sums = startValue
-	c.lastOperation = ""
-	c.lastSuccessOperation = ""
-	c.lastErrorOperation = ""
+	c.lastOperation = Nop
+	c.lastSuccessOperation = Nop
+	c.lastErrorOperation = Nop
 	c.lastErrorCaught = nil
 	return c
 }

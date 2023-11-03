@@ -14,8 +14,8 @@ func (c *Chainable[T]) Plus(n T) IChainable[T] {
 }
 
 // Operasi pengurangan
-func (c *Chainable[T]) Min(n T) IChainable[T] {
-	c.lastOperation = Min
+func (c *Chainable[T]) Minus(n T) IChainable[T] {
+	c.lastOperation = Minus
 	if c.IsError() {
 		return c
 	}
