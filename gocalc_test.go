@@ -9,7 +9,7 @@ func TestBasicCalculation(t *testing.T) {
 	}
 
 	// Pengurangan
-	if c := New(100).Min(50).Result(); c != 50 {
+	if c := New(100).Minus(50).Result(); c != 50 {
 		t.Errorf("Expected 50, but got %v", c)
 	}
 
@@ -39,7 +39,7 @@ func TestChainableCalculation(t *testing.T) {
 		Divide(500).
 		Multiply(2).
 		Plus(2).
-		Min(1).
+		Minus(1).
 		Result(); c != 5 {
 		t.Errorf("Expected 5, but got %v", c)
 	}
@@ -66,7 +66,7 @@ func TestFloatNumberCalculation(t *testing.T) {
 		Plus(15.0).
 		Plus(5.0).
 		Multiply(2.0).
-		Min(20.0).
+		Minus(20.0).
 		Result(); c != 40.0 {
 		t.Errorf("Expected 20.0, but got %v", c)
 	}

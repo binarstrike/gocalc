@@ -24,8 +24,8 @@ func TestSimpleCalculationWithTestTable(t *testing.T) {
 			expected: 15,
 		},
 		{
-			name:     "Min",
-			fn:       New(10).Min,
+			name:     "Minus",
+			fn:       New(10).Minus,
 			n:        5,
 			expected: 5,
 		},
