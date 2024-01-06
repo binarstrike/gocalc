@@ -1,30 +1,30 @@
 package gocalc
 
-import "testing"
+import (
+	"testing"
+)
 
-var c2 = New[int64](10)
-var c1 = New(10.0)
+var (
+	num1 int             = 10
+	num2 IChainable[int] = New(10)
+)
 
-// golang juga punya builtin feature untuk melakukan test benchmark yaitu sebuah pengujian untuk menguji performa atau
-// kemampuan dan kecepatan aplikasi
-
-func BenchmarkChainableOperation(b *testing.B) {
-	b.Run("benchmark1", func(b *testing.B) {
-		for i := float64(1); i < float64(b.N); i++ {
-			c1.Plus(float64(i)).Multiply(0.000001233).Multiply(1.0000023323).
-				Plus(i).Multiply(0.00000000123 + (-i - i - (-12345678))).Multiply(0.000000023323).
-				Plus(i).Multiply(0.00000000123 + (-i - i - (-12345678))).Multiply(0.00323).
-				Plus(i).Multiply(0.00000000123 + (-i - i - (-12345678))).Multiply(0.00023323)
+func BenchmarkBasicCalculationMathOperator(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		if i == 0 {
+			continue
 		}
-		b.Logf("c1 %.7f", c1.Result())
-	})
-	b.Run("benchmark2", func(b *testing.B) {
-		for i := int64(1); i < int64(b.N); i++ {
-			c2.Plus(-i * 10).Multiply(-1 * i).Divide(-1 * i).
-				Plus(9999).Multiply(1 * -i).Divide(-1 * i).
-				Plus(9999).Multiply(1 * -i).Divide(-1 * -i).
-				Plus(9999).Multiply(1 * -i).Divide(-1 * -i)
+		num1 = (((num1 + i) * i) - i) / i
+	}
+	b.Log(num1)
+}
+
+func BenchmarkBasicCalculationChainableOperation(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		if i == 0 {
+			continue
 		}
-		b.Logf("c2 %v", c2.Result())
-	})
+		num2.Plus(i).Multiply(i).Minus(i).Divide(i)
+	}
+	b.Log(num2.Result())
 }

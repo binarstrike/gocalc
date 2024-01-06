@@ -1,6 +1,8 @@
 package gocalc
 
 import (
+	"strconv"
+
 	"golang.org/x/exp/constraints"
 )
 
@@ -10,16 +12,16 @@ type Number interface {
 	constraints.Integer | constraints.Float
 }
 
-var operationName = [...]string{
-	"Nop",
-	"Plus",
-	"Minus",
-	"Multiply",
-	"Divide",
+var operationName = []string{
+	Nop:      "NoOperation",
+	Plus:     "Plus",
+	Minus:    "Minus",
+	Multiply: "Multiply",
+	Divide:   "Divide",
 }
 
 const (
-	Nop Operation = iota + 1
+	Nop Operation = iota
 	Plus
 	Minus
 	Multiply
@@ -27,7 +29,10 @@ const (
 )
 
 func (op Operation) String() string {
-	return operationName[op-1]
+	if op >= Nop && op <= Divide {
+		return operationName[op]
+	}
+	return "Operation(" + strconv.FormatInt(int64(op), 10) + ")"
 }
 
 type IChainable[T Number] interface {
@@ -56,9 +61,9 @@ type Chainable[T Number] struct {
 	lastErrorCaught      error
 }
 
-func New[T Number](startValue T) IChainable[T] {
+func New[T Number](value T) IChainable[T] {
 	c := new(Chainable[T])
-	c.sums = startValue
+	c.sums = value
 	c.lastOperation = Nop
 	c.lastSuccessOperation = Nop
 	c.lastErrorOperation = Nop

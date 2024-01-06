@@ -1,6 +1,18 @@
 package gocalc
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
+
+// TestMain() adalah sebuah fungsi spesial pada test yang akan dijalankan pertama kali ketika test dijalankan,
+// biasanya digunakan untuk membuat instansi atau mengisi nilai variabel juga menyiapakan service-service yang
+// mungkin akan digunakan oleh fungsi-fungsi test.
+func TestMain(m *testing.M) {
+	fmt.Println("Start test")
+	m.Run()                    // m.Run() menjalankan semua fungsi test
+	fmt.Println("Finish test") // akan diprint ketika semua test selesai dijalankan
+}
 
 func TestBasicCalculation(t *testing.T) {
 	// Penambahan

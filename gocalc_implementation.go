@@ -1,9 +1,6 @@
 package gocalc
 
-// TODO mengimplementasikan pengecekan kesalahan jika terdapat error saat melakukan operasi matematika
-// mungkin berdasarkan dari nilai parameternya atau jenis tipe data
-
-// Operasi penjumlahan
+// Plus performs addition operation.
 func (c *Chainable[T]) Plus(n T) IChainable[T] {
 	c.lastOperation = Plus
 	if c.IsError() {
@@ -13,7 +10,7 @@ func (c *Chainable[T]) Plus(n T) IChainable[T] {
 	return c.markResult(result)
 }
 
-// Operasi pengurangan
+// Minus performs substraction operation.
 func (c *Chainable[T]) Minus(n T) IChainable[T] {
 	c.lastOperation = Minus
 	if c.IsError() {
@@ -23,7 +20,7 @@ func (c *Chainable[T]) Minus(n T) IChainable[T] {
 	return c.markResult(result)
 }
 
-// Operasi perkalian
+// Multiply performs multiplication operation.
 func (c *Chainable[T]) Multiply(n T) IChainable[T] {
 	c.lastOperation = Multiply
 	if c.IsError() {
@@ -33,7 +30,7 @@ func (c *Chainable[T]) Multiply(n T) IChainable[T] {
 	return c.markResult(result)
 }
 
-// Operasi pembagian
+// Divide performs division operation.
 func (c *Chainable[T]) Divide(n T) IChainable[T] {
 	c.lastOperation = Divide
 	if c.IsError() {
