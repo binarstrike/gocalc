@@ -9,7 +9,7 @@ var (
 	num2 IChainable[int] = New(10)
 )
 
-func BenchmarkBasicCalculationMathOperator(b *testing.B) {
+func BenchmarkBasicCalculationWithMathOperator(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		if i == 0 {
 			continue
@@ -19,7 +19,7 @@ func BenchmarkBasicCalculationMathOperator(b *testing.B) {
 	b.Log(num1)
 }
 
-func BenchmarkBasicCalculationChainableOperation(b *testing.B) {
+func BenchmarkBasicCalculationWithGocalc(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		if i == 0 {
 			continue
