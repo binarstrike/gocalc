@@ -13,17 +13,17 @@ import (
 )
 
 var (
-	operatorPatterRegex = regexp.MustCompile("^[*/+-]$")
-	flagPatternRegex    = regexp.MustCompile("^-{1,2}[a-zA-Z]+$")
+	mathOprRegex = regexp.MustCompile("^[*/+-]$")
+	flagRegex    = regexp.MustCompile("^-{1,2}[a-zA-Z]+$")
 )
 
 func main() {
 	args := os.Args[1:]
 	var interactiveMode bool
 
-	if a := len(args); a == 0 {
+	if a := len(args); a < 1 {
 		interactiveMode = true
-	} else if flagPatternRegex.Match([]byte(args[0])) {
+	} else if flagRegex.Match([]byte(args[0])) {
 		flag.BoolVar(&interactiveMode, "i", false, "Enter intercative mode")
 		flag.Parse()
 	} else if a%2 == 0 {
@@ -32,7 +32,9 @@ func main() {
 	}
 
 	if interactiveMode {
-		fmt.Println("Simple Calculator\ntype q for quit from application\nexample input: 5 * 2 / 2 + 3 + 15")
+		fmt.Println(
+			"Simple Calculator\ntype q for quit from application\nexample input: 5 * 2 / 2 + 3 + 15",
+		)
 		enterInteractivePromptMode()
 		return
 	}
@@ -65,7 +67,7 @@ func parseInputArgs(args []string) (operators []string, nums []float64, err erro
 			break
 		}
 
-		if opr := args[i+1]; operatorPatterRegex.Match([]byte(opr)) {
+		if opr := args[i+1]; mathOprRegex.MatchString(opr) {
 			operators = append(operators, opr)
 		} else {
 			err = fmt.Errorf("invalid parameter operator \"%s\"", opr)
@@ -75,7 +77,7 @@ func parseInputArgs(args []string) (operators []string, nums []float64, err erro
 	return
 }
 
-func calculateResult[T gocalc.Number](nums []T, operators []string) (T, error) {
+func calculateResult[T float64](nums []T, operators []string) (T, error) {
 	c := gocalc.New(nums[0])
 
 	for i, opr := range operators {
@@ -99,17 +101,19 @@ func enterInteractivePromptMode() {
 
 	for {
 		fmt.Print(">>> ")
-		s.Scan()
+		if !s.Scan() {
+			return
+		}
 
 		input := strings.Split(s.Text(), " ")
 
-		if input[0] == "q" {
+		if inputLen := len(input); input[0] == "q" {
 			fmt.Println("Bye")
 			return
-		} else if a := len(input); a <= 1 {
+		} else if inputLen <= 1 {
 			fmt.Println(input[0])
 			continue
-		} else if a%2 == 0 {
+		} else if inputLen%2 == 0 {
 			fmt.Println("invalid input parameter")
 			continue
 		}
